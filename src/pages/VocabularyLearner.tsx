@@ -1,3 +1,14 @@
+import {
+  CardsIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  GridIcon,
+  HeartIcon,
+  ListIcon,
+  QuizIcon,
+  SearchIcon,
+  VolumeIcon,
+} from "@/components/Icons";
 import FavoritesList from "@/components/FavoritesList";
 import QuizMode from "@/components/QuizMode";
 import { useFavorites } from "@/hooks/useFavorites";
@@ -9,16 +20,16 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 type ViewMode = "list" | "cards" | "favorites" | "quiz";
 
 const primaryButtonClass =
-  "rounded-full bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_18px_34px_-22px_rgba(15,23,42,0.9)] transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40";
+  "inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_18px_34px_-22px_rgba(15,23,42,0.9)] transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40";
 
 const secondaryButtonClass =
-  "rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.4)] transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40";
+  "inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.4)] transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40";
 
 const activeChipClass =
-  "rounded-full border border-slate-900 bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-[0_14px_28px_-24px_rgba(15,23,42,0.85)] transition";
+  "inline-flex items-center gap-2 rounded-full border border-slate-900 bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-[0_14px_28px_-24px_rgba(15,23,42,0.85)] transition";
 
 const inactiveChipClass =
-  "rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-900";
+  "inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-900";
 
 interface VocabularyLearnerProps {
   dataset: DatasetKey;
@@ -215,6 +226,7 @@ export default function VocabularyLearner({
             }}
             className={secondaryButtonClass}
           >
+            <HeartIcon className="h-4 w-4" />
             {dictionary.learner.favoritesButton(favorites.favoriteCount)}
           </button>
           <button
@@ -223,50 +235,53 @@ export default function VocabularyLearner({
             disabled={filteredWords.length === 0}
             className={primaryButtonClass}
           >
+            <QuizIcon className="h-4 w-4" />
             {dictionary.learner.startQuiz}
           </button>
         </div>
       </header>
 
-      <section className="rounded-[32px] border border-white/70 bg-white/82 p-5 shadow-[0_24px_60px_-50px_rgba(15,23,42,0.3)] backdrop-blur sm:p-6">
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-center">
-          <div className="space-y-3">
-            <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
-              {dictionary.learner.search}
-            </label>
-            <input
-              type="text"
-              placeholder={dictionary.learner.searchPlaceholder}
-              value={searchQuery}
-              onChange={(event) => {
-                setSearchQuery(event.target.value);
-                setViewMode("list");
-                setCurrentCardIndex(0);
-              }}
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50/85 px-4 py-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-300 focus:bg-white"
-            />
-            <p className="text-sm font-medium text-slate-500">{resultsLabel}</p>
+      <section className="grid gap-4 border-b border-slate-200/70 pb-6 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
+            <SearchIcon className="h-4 w-4" />
+            <label htmlFor={`search-${dataset}`}>{dictionary.learner.search}</label>
           </div>
+          <input
+            id={`search-${dataset}`}
+            type="text"
+            placeholder={dictionary.learner.searchPlaceholder}
+            value={searchQuery}
+            onChange={(event) => {
+              setSearchQuery(event.target.value);
+              setViewMode("list");
+              setCurrentCardIndex(0);
+            }}
+            className="w-full rounded-2xl border border-slate-200/80 bg-white/78 px-4 py-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-300 focus:bg-white"
+          />
+          <p className="text-sm font-medium text-slate-500">{resultsLabel}</p>
+        </div>
 
-          <div className="flex flex-wrap gap-2 xl:justify-end">
-            <button
-              type="button"
-              onClick={() => setViewMode("list")}
-              className={viewMode === "list" ? activeChipClass : inactiveChipClass}
-            >
-              {dictionary.learner.list}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setViewMode("cards");
-                setCurrentCardIndex(0);
-              }}
-              className={viewMode === "cards" ? activeChipClass : inactiveChipClass}
-            >
-              {dictionary.learner.cards}
-            </button>
-          </div>
+        <div className="flex flex-wrap gap-2 xl:justify-end">
+          <button
+            type="button"
+            onClick={() => setViewMode("list")}
+            className={viewMode === "list" ? activeChipClass : inactiveChipClass}
+          >
+            <ListIcon className="h-4 w-4" />
+            {dictionary.learner.list}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setViewMode("cards");
+              setCurrentCardIndex(0);
+            }}
+            className={viewMode === "cards" ? activeChipClass : inactiveChipClass}
+          >
+            <GridIcon className="h-4 w-4" />
+            {dictionary.learner.cards}
+          </button>
         </div>
       </section>
 
@@ -369,6 +384,7 @@ export default function VocabularyLearner({
                     disabled={currentCardIndex === 0}
                     className={secondaryButtonClass}
                   >
+                    <ChevronLeftIcon className="h-4 w-4" />
                     {dictionary.learner.previous}
                   </button>
 
@@ -392,6 +408,7 @@ export default function VocabularyLearner({
                     className={secondaryButtonClass}
                   >
                     {dictionary.learner.next}
+                    <ChevronRightIcon className="h-4 w-4" />
                   </button>
                 </div>
 
@@ -401,6 +418,7 @@ export default function VocabularyLearner({
                     onClick={() => playPronunciation(currentCard.word)}
                     className={primaryButtonClass}
                   >
+                    <VolumeIcon className="h-4 w-4" />
                     {dictionary.learner.playPronunciation}
                   </button>
                   <button
@@ -408,6 +426,7 @@ export default function VocabularyLearner({
                     onClick={() => favorites.toggleFavorite(currentCard.id)}
                     className={secondaryButtonClass}
                   >
+                    <HeartIcon className="h-4 w-4" />
                     {favorites.isFavorite(currentCard.id)
                       ? dictionary.learner.saved
                       : dictionary.learner.save}
@@ -423,8 +442,8 @@ export default function VocabularyLearner({
         </section>
       ) : (
         <section className="space-y-6">
-          <div className="rounded-[32px] border border-white/70 bg-white/82 p-5 shadow-[0_24px_60px_-50px_rgba(15,23,42,0.3)] backdrop-blur sm:p-6">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
+          <div className="space-y-4 border-b border-slate-200/70 pb-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
               {dictionary.learner.browseByLetter}
             </p>
             <div className="flex flex-wrap gap-2">
@@ -492,6 +511,7 @@ export default function VocabularyLearner({
                         }}
                         className={secondaryButtonClass}
                       >
+                        <CardsIcon className="h-4 w-4" />
                         {dictionary.learner.openCard}
                       </button>
                       <button
@@ -499,6 +519,7 @@ export default function VocabularyLearner({
                         onClick={() => playPronunciation(word.word)}
                         className={secondaryButtonClass}
                       >
+                        <VolumeIcon className="h-4 w-4" />
                         {dictionary.learner.playPronunciation}
                       </button>
                       <button
@@ -506,6 +527,7 @@ export default function VocabularyLearner({
                         onClick={() => favorites.toggleFavorite(word.id)}
                         className={isFavorite ? primaryButtonClass : secondaryButtonClass}
                       >
+                        <HeartIcon className="h-4 w-4" />
                         {isFavorite ? dictionary.learner.saved : dictionary.learner.save}
                       </button>
                     </div>

@@ -1,3 +1,4 @@
+import { CloseIcon, HeartIcon, VolumeIcon } from "@/components/Icons";
 import type { Word } from "@/types";
 
 interface FavoritesListProps {
@@ -14,7 +15,7 @@ interface FavoritesListProps {
 }
 
 const buttonClass =
-  "rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.4)] transition hover:border-slate-300 hover:bg-slate-50";
+  "inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.4)] transition hover:border-slate-300 hover:bg-slate-50";
 
 export default function FavoritesList({
   favorites,
@@ -25,6 +26,9 @@ export default function FavoritesList({
   if (favorites.length === 0) {
     return (
       <div className="rounded-[30px] border border-white/70 bg-white/86 p-12 text-center shadow-[0_28px_64px_-50px_rgba(15,23,42,0.4)] backdrop-blur">
+        <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-rose-50 text-rose-500">
+          <HeartIcon className="h-6 w-6" />
+        </div>
         <p className="text-xl font-semibold text-slate-900">{messages.emptyTitle}</p>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-500">
           {messages.emptyDescription}
@@ -35,8 +39,9 @@ export default function FavoritesList({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-[30px] border border-white/70 bg-white/86 px-5 py-4 shadow-[0_22px_56px_-50px_rgba(15,23,42,0.4)] backdrop-blur">
-        <p className="text-sm font-semibold text-slate-700">{messages.count}</p>
+      <div className="flex items-center gap-2 border-b border-slate-200/70 pb-3 text-sm font-semibold text-slate-700">
+        <HeartIcon className="h-4 w-4 text-rose-500" />
+        <p>{messages.count}</p>
       </div>
 
       <div className="grid gap-4">
@@ -73,6 +78,7 @@ export default function FavoritesList({
                   onClick={() => onPlayPronunciation(word.word)}
                   className={buttonClass}
                 >
+                  <VolumeIcon className="h-4 w-4" />
                   {messages.play}
                 </button>
                 <button
@@ -80,6 +86,7 @@ export default function FavoritesList({
                   onClick={() => onRemoveFavorite(word.id)}
                   className={`${buttonClass} text-rose-600 hover:border-rose-200 hover:bg-rose-50`}
                 >
+                  <CloseIcon className="h-4 w-4" />
                   {messages.remove}
                 </button>
               </div>

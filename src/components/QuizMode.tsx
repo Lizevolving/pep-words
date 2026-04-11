@@ -1,3 +1,9 @@
+import {
+  BookIcon,
+  ChevronLeftIcon,
+  CloseIcon,
+  QuizIcon,
+} from "@/components/Icons";
 import type { QuizQuestion, QuizResult } from "@/types";
 
 interface QuizModeProps {
@@ -35,7 +41,7 @@ interface QuizModeProps {
 }
 
 const lightButtonClass =
-  "rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.4)] transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40";
+  "inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.4)] transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40";
 
 export default function QuizMode({
   currentQuestion,
@@ -59,7 +65,8 @@ export default function QuizMode({
       <div className="mx-auto max-w-4xl space-y-6">
         <section className="rounded-[32px] border border-white/70 bg-white/88 p-6 shadow-[0_30px_72px_-52px_rgba(15,23,42,0.42)] backdrop-blur sm:p-8">
           <div className="mb-8 text-center">
-            <div className="inline-flex items-center rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700">
+              <QuizIcon className="h-4 w-4" />
               Quiz
             </div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900">
@@ -154,6 +161,7 @@ export default function QuizMode({
 
         <div className="flex justify-center">
           <button type="button" onClick={onExit} className={lightButtonClass}>
+            <BookIcon className="h-4 w-4" />
             {messages.backToStudy}
           </button>
         </div>
@@ -179,7 +187,8 @@ export default function QuizMode({
       {currentQuestion && (
         <section className="rounded-[32px] border border-white/70 bg-white/88 p-6 shadow-[0_30px_72px_-52px_rgba(15,23,42,0.42)] backdrop-blur sm:p-8">
           <div className="mb-8">
-            <div className="inline-flex items-center rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
+              <QuizIcon className="h-4 w-4" />
               {messages.chooseMeaning}
             </div>
             <h2 className="mt-5 text-4xl font-bold tracking-tight text-slate-900">
@@ -214,6 +223,7 @@ export default function QuizMode({
               disabled={currentQuestionIndex === 0}
               className={lightButtonClass}
             >
+              <ChevronLeftIcon className="h-4 w-4" />
               {messages.previous}
             </button>
             <p className="max-w-sm text-right text-sm leading-6 text-slate-500">
@@ -227,8 +237,9 @@ export default function QuizMode({
         <button
           type="button"
           onClick={onExit}
-          className="text-sm font-semibold text-slate-500 transition hover:text-slate-800"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-slate-800"
         >
+          <CloseIcon className="h-4 w-4" />
           {messages.exit}
         </button>
       </div>

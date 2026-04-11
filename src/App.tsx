@@ -1,3 +1,9 @@
+import {
+  BookIcon,
+  FileTextIcon,
+  GraduationCapIcon,
+  StarIcon,
+} from "@/components/Icons";
 import MarkdownDocument from "@/components/MarkdownDocument";
 import { datasetMarkdown, datasetWords } from "@/content";
 import { LOCALE_STORAGE_KEY, getDictionary, getStoredLocale } from "@/i18n";
@@ -21,10 +27,17 @@ const ROUTE_DATASET_MAP: Record<RouteKey, DatasetKey> = {
 };
 
 const activeNavClass =
-  "rounded-full bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_-18px_rgba(15,23,42,0.8)] transition";
+  "inline-flex items-center gap-2.5 rounded-full bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_-18px_rgba(15,23,42,0.8)] transition";
 
 const inactiveNavClass =
-  "rounded-full border border-slate-200 bg-white/80 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-white hover:text-slate-900";
+  "inline-flex items-center gap-2.5 rounded-full border border-slate-200 bg-white/80 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-white hover:text-slate-900";
+
+const routeIconMap: Record<RouteKey, typeof GraduationCapIcon> = {
+  "middle-school": GraduationCapIcon,
+  "primary-school": BookIcon,
+  "docs/middle-school": FileTextIcon,
+  "docs/primary-school": FileTextIcon,
+};
 
 function LanguageSwitch({
   locale,
@@ -82,9 +95,19 @@ function App() {
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
               <div className="max-w-3xl">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700/90">
-                  {dictionary.site.title}
-                </p>
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-[0_18px_40px_-28px_rgba(15,23,42,0.9)]">
+                    <StarIcon className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-sky-700/90">
+                      PEP Words
+                    </p>
+                    <p className="mt-1 text-lg font-semibold tracking-tight text-slate-900">
+                      {dictionary.site.title}
+                    </p>
+                  </div>
+                </div>
                 <p className="mt-4 max-w-2xl text-[15px] leading-8 text-slate-600 sm:text-base">
                   {dictionary.site.subtitle}
                 </p>
@@ -94,16 +117,21 @@ function App() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {NAVIGATION_ROUTES.map((routeKey) => (
-                <button
-                  key={routeKey}
-                  type="button"
-                  onClick={() => navigate(routeKey)}
-                  className={route === routeKey ? activeNavClass : inactiveNavClass}
-                >
-                  {dictionary.nav[routeKey]}
-                </button>
-              ))}
+              {NAVIGATION_ROUTES.map((routeKey) => {
+                const Icon = routeIconMap[routeKey];
+
+                return (
+                  <button
+                    key={routeKey}
+                    type="button"
+                    onClick={() => navigate(routeKey)}
+                    className={route === routeKey ? activeNavClass : inactiveNavClass}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{dictionary.nav[routeKey]}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
