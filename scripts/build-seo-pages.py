@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_DIR = ROOT / "public"
 SEO_DIR = PUBLIC_DIR / "seo"
 DATA_DIR = ROOT / "src" / "data"
-SITE_URL = "https://pep-words.lizliz.xyz"
+SITE_URL = "https://pep-words.brainrush.run"
 MAX_WORD_PAGES_PER_DATASET = 240
 
 

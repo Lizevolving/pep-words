@@ -15,7 +15,7 @@ import type { DatasetKey, Locale, RouteKey, Word } from "@/types";
 import { startTransition, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
-const BRAIN_RUSH_URL = "https://brainrush.lizliz.xyz";
+const BRAIN_RUSH_URL = "https://brainrush.run";
 const TRANSITION_MS = 220;
 
 const NAVIGATION_ROUTES: RouteKey[] = [
